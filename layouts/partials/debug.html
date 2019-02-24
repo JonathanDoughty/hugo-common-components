@@ -1,0 +1,6 @@
+{{ if ne (getenv "HUGO_ENV") "production" }}
+<script type="text/javascript">
+  console.log("Kind: {{ .Kind }}");
+  console.log("{{ printf "%#v" . }}")
+</script>
+{{ end }}

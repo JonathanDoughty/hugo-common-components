@@ -47,8 +47,6 @@
     </main>
     {{- block "footer" . -}}{{ partial "site-footer.html" . }}{{- end -}}
     {{- block "scripts" . -}}{{ partial "site-scripts.html" . }}{{- end -}}
-    {{- if ne (getenv "HUGO_ENV") "production" -}}
-      {{ partial "debug.html" . }}
-    {{- end -}}
+    {{ partial "debug.html" . }}
   </body>
 </html>
