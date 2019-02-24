@@ -1,0 +1,12 @@
+{{/* Based on https://gohugo.io/content-management/related/  */}}
+{{ $related := .Site.RegularPages.Related . | first ( default 5 .Site.Params.numberOfRelated ) }}
+{{ with $related }}
+<div class="pa3">
+  <h3>Related posts</h3>
+<ul>
+	{{ range . }}
+	<li class="list f5 w-100 hover-bg-white shadow-hover nl1"><a href="{{ .RelPermalink }}" class="link ph2 pv2 db black">{{ .Title }}</a></li>
+	{{ end }}
+</ul>
+</div>
+{{ end }}

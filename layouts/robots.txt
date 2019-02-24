@@ -1,0 +1,21 @@
+# robots.txt
+{{/* Russian */}}
+User-agent: Yandex
+Disallow: /
+{{/* Chinese */}}
+User-agent: Baiduspider
+Disallow: /
+{{/* Czech robot */}}
+User-agent: SeznamBot
+Disallow: /
+{{/* Marketing link harvester */}}
+User-agent: AhrefsBot
+Disallow: /
+{{/* Marketing */}}
+User-agent: SemrushBot
+Disallow: /
+{{/* All others */}}
+User-agent: *
+Disallow: /tags
+Disallow: /categories
+Crawl-delay: 2

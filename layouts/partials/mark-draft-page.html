@@ -1,0 +1,7 @@
+{{/* Make it visibly apparent that current page is in draft */}}
+{{ with .Params.draft }}
+{{- if . -}}
+  <p class="br-pill fw1 f4-l white-90 bg-dark-red measure center tc pa3 lh-copy mt3 mb4">
+    Draft page</p>
+{{- end -}}
+{{ end }}

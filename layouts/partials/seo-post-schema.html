@@ -1,0 +1,20 @@
+{{/*  layouts/partials/seo-blog-schema.html  */}}
+<script type="application/ld+json">
+{
+    "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "name" : "{{ .Title }}",
+    "headline" : "{{ .Title }}",
+    "description" : "{{ if .Description }}{{ .Description | plainify | chomp }}{{ else }}{{if .IsPage}}{{ .Summary | plainify | chomp }}{{ end }}{{ end }}",
+    "articleBody" : "{{ .Content | plainify | htmlUnescape | chomp }}"
+    "author" : "{{ .Site.Params.Author }}",
+    "creator" : "{{ .Site.Params.Author }}",
+    "copyrightHolder" : "{{ .Site.Params.Author }}",
+    "copyrightYear" : "{{ .Date.Format "2006" }}",
+    "datePublished": "{{ .Date }}",
+    "dateModified" : "{{ .Date }}",
+    "url" : "{{ .Permalink }}",
+    "keywords" : [ {{ with .Params.tags }}"{{ delimit . "\", \"" }}{{ end }}" ],
+    "wordCount" : "{{ .WordCount }}"
+}
+</script>

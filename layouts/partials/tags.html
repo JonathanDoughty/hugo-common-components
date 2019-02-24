@@ -1,0 +1,14 @@
+{{/* Adapted from https://www.sidorenko.io/post/2017/07/nice-tagcloud-with-hugo/ */}}
+{{ with $.Params.tags }}
+    {{ $excludes := slice "lectures" "news" "workshop" }}
+    <div id="tag-cloud" class="pa3">
+      <h3>Tags</h3>
+      <ul>
+        {{ range $name := . }}
+            {{ if not ( in $excludes $name ) }}
+	        <li class="list f5 w-100 hover-bg-white shadow-hover nl1"><a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}" class="link ph2 pv2 db black">{{ $name }}</a></li>
+            {{ end }}
+       {{ end }}
+      </ul>
+    </div>
+{{ end }}

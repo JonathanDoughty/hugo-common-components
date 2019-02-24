@@ -1,0 +1,15 @@
+{{/* Overide any block in the baseof file by defining it in the template */}}
+{{ define "header" }}{{ partial "page-header.html" . }}{{ end }}
+{{ define "main" }}
+  <div class="flex-l mt2 mw9 center">
+    <article class="center cf pv3 ph3 ph5-ns mw8">
+      <section class="nested-copy-line-height lh-copy sanserif f4 measure-wide nested-links nested-img text-color">
+        {{ .Content }}
+      </section>
+    </article>
+    <div class="ph2 mt2-ns bl-l b--moon-gray">
+      {{ partial "related.html" . }}
+      {{ partial "tags.html" . }}
+    </div>
+  </div>
+{{ end }}
