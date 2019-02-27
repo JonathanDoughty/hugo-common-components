@@ -1,0 +1,25 @@
+{{- $doc := (path.Join "documents" (.Get "src")) -}}
+{{- $media := (.Site.GetPage "page" "media").Resources -}}
+{{- $original := index ($media.Match (printf "%s" $doc)) 0 -}}
+{{- $caption := .Get "caption" -}}
+{{- $title := .Get "title" -}}
+{{- $alt := .Get "alt" -}}
+{{- $debug := false -}}
+{{- if (or $debug  (not $original)) -}}{{/* if doc can't be found provide some help */}}
+  <div id="can-delete">
+    <table>
+      <thead>
+        <tr><td>Variable</td><td>Value</td></tr>
+      </thead>
+      <tbody>
+        <tr><td>Doc</td><td>{{ $doc }}</td></tr>
+        <tr><td>Caption</td><td>{{ $caption }}</td></tr>
+        <tr><td>Title</td><td>{{ $title }}</td></tr>
+        <tr><td>Alt</td><td>{{ $alt }}</td></tr>
+        <tr><td>Type</td><td>{{ $original.ResourceType }}</td></tr>
+        <tr><td>Doc Path</td><td>{{ (or $original.RelPermalink "Not Found") }}</td></tr>
+      </tbody>
+    </table>
+  </div>
+{{- end -}}
+<a href="{{ $original.RelPermalink }}" alt="{{ $alt }}">{{ $title }}</a>
