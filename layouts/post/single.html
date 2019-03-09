@@ -5,7 +5,8 @@
     <article class="center cf pv3 ph3 ph5-ns mw8">
       <section class="nested-copy-line-height lh-copy sanserif f4 measure-wide nested-links nested-img text-color">
         {{ .Content }}
-      </section>
+	  </section>
+	  {{ partial "article-date.html" . }}
     </article>
     <div class="ph2 mt2-ns bl-l b--moon-gray">
       {{ partial "related.html" . }}
