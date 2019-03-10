@@ -7,14 +7,22 @@
       {{ if .Site.Menus.main }}
         <ul class="pl0 mr3">
           {{ range .Site.Menus.main }}
-		  <li class="list f5 f4-ns fw4 dib pr3">
-			{{ if eq ( replaceRE "^icon-" "" .Name ) .Name }}
-			<a class="dim no-underline white-90" href="{{ .URL }}" title="{{ .Name }} page">{{ .Name }}</a>
-			{{ else }}
-			<a class="dim no-underline white-90" href="{{ .URL }}" title="{{ replaceRE "^icon-" "" .Name }} page">{{- with .Pre -}}{{ . }}{{- end -}}
-			</a>
-			{{ end }}
-          </li>
+            {{/* Name gets overloaded: "[icon-][label-]ActualMenuNameLabel */}}
+            {{- $includeLabel := in .Name "label-" -}}
+            {{- $hasIcon := in .Name "icon-" -}}
+            {{ $label := replace .Name "icon-" "" }}
+            {{ $label := replace $label  "label-" "" }}
+            <li class="list f5 f4-ns fw4 dib pr3">
+            {{ if not $hasIcon }}
+              <a class="dim no-underline white-90" href="{{ .URL }}" title="{{ $label }} page">{{ $label }}</a>
+            {{ else }}
+              <a class="dim no-underline white-90" href="{{ .URL }}" title="{{ $label }} page">
+              {{- with .Pre -}}{{ . }}{{- end -}}
+              {{- if $includeLabel -}}{{- $label -}}{{- end -}}
+              {{- with .Post -}}{{ . }}{{- end -}}
+              </a>
+            {{ end }}
+            </li>
           {{ end }}
         </ul>
       {{ end }}
