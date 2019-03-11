@@ -32,7 +32,7 @@
               <a class="dim no-underline white-90{{ $is_active }}" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }} title="{{ $label }} page">
               {{- with .Pre -}}{{ . }}{{- end -}}
               {{- if $includeLabel -}}{{- $label -}}{{- end -}}
-              {{- with .Post -}}{{ . }}{{- end -}}
+              {{- with .Post -}}&nbsp;{{ . }}{{- end -}}
               </a>
             {{- end -}}
             </li>
