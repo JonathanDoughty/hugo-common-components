@@ -1,6 +1,11 @@
-{{- $doc := (path.Join "documents" (.Get "src")) -}}
-{{- $media := (.Site.GetPage "page" "media").Resources -}}
-{{- $original := index ($media.Match (printf "%s" $doc)) 0 -}}
+{{/* Look in local directory fist */}}
+{{- $doc := .Get "src" -}}
+{{- $original := .Page.Resources.GetMatch $doc -}}
+{{- if not $original -}}
+    {{- $doc = (path.Join "documents" (.Get "src")) -}}
+    {{- $media := (.Site.GetPage "page" "media").Resources -}}
+    {{- $original = index ($media.Match (printf "%s" $doc)) 0 -}}
+{{- end }}
 {{- $caption := .Get "caption" -}}
 {{- $title := .Get "title" -}}
 {{- $alt := .Get "alt" -}}
@@ -17,8 +22,14 @@
         <tr><td>Title</td><td>{{ $title }}</td></tr>
         <tr><td>Alt</td><td>{{ $alt }}</td></tr>
         <tr><td>Type</td><td>{{ $original.ResourceType }}</td></tr>
-        <tr><td>Doc Path</td><td>{{ (or $original.RelPermalink "Not Found") }}</td></tr>
-      </tbody>
+        <tr><td>Doc Path</td><td>{{ or $original.RelPermalink "Not Found" }}</td></tr>
+        {{/*}}
+        {{- with $original.PermaLink -}}
+        {{- $stat := os.Stat . }}
+        <tr><td>Doc Modified</td><td>{{ or $stat ($stat.ModTime.Format "January 2, 2001") "Not Found" }}</td></tr>
+        {{- end -}}
+        */}}
+        </tbody>
     </table>
   </div>
 {{- end -}}
