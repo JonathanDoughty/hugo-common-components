@@ -1,0 +1,8 @@
+{{- $debugCommon := false -}}
+{{- if and (ne (getenv "HUGO_ENV") "production") (eq $debugCommon true) -}}
+<p>{{ printf "Date %s" .Date }}</p>
+<script type="text/javascript">
+  console.log("Kind: {{ .Kind }}");
+  console.log("{{ printf "%#v" . }}")
+</script>
+{{- end -}}
