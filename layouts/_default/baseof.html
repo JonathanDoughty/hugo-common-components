@@ -10,7 +10,7 @@
     {{- block "description" . -}}
     {{ partial "page-description.html" . }}
     {{- end -}}
-    {{ .Hugo.Generator }}
+    {{ $.Hugo.Generator }}
     {{/* NOTE: For Production make sure you add `HUGO_ENV="production"` before your build command */}}
     {{- if eq (getenv "HUGO_ENV") "production" | or (eq .Site.Params.env "production") -}}
       <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
@@ -29,8 +29,8 @@
       {{ partial "site-favicon.html" . }}
     {{- end -}}
     {{- if .RSSLink }}
-      <link href="{{ .RSSLink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
-      <link href="{{ .RSSLink }}" rel="feed" type="application/rss+xml" title="{{ .Site.Title }}" />
+      <link href="{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+      <link href="{{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}" rel="feed" type="application/rss+xml" title="{{ .Site.Title }}" />
     {{- end -}}
     {{/* NOTE: These Hugo Internal Templates can be found starting at https://github.com/spf13/hugo/blob/master/tpl/tplimpl/template_embedded.go#L158 */}}
     {{- template "_internal/opengraph.html" . -}}
