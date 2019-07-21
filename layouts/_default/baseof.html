@@ -23,7 +23,7 @@
       <link href="{{ absURL (printf "%s%s" "/dist/" .) }}" rel="stylesheet">
     {{- end -}}
     {{ range .Site.Params.custom_css }}
-      <link href="{{ $.Site.BaseURL }}{{ . }}" rel="stylesheet">
+      <link href="{{ $.Site.BaseURL }}/{{ . }}" rel="stylesheet">
     {{- end -}}
     {{- block "favicon" . -}}
       {{ partial "site-favicon.html" . }}

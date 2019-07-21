@@ -1,12 +1,20 @@
-{{/*  layouts/partials/seo-blog-schema.html  */}}
+{{/*  layouts/partials/seo-post-schema.html  */}}
+{{- if eq .Kind "page" -}}
+{{- $article := .Content | plainify | htmlUnescape | chomp -}}
+{{- $description := "placeholder " -}}
+{{- if .Description -}}
+{{-    $description = .Description | plainify | chomp -}}
+{{- else -}}
+{{-    $description = .Summary | plainify | chomp -}}
+{{- end -}}
 <script type="application/ld+json">
 {
     "@context" : "http://schema.org",
     "@type" : "BlogPosting",
     "name" : "{{ .Title }}",
     "headline" : "{{ .Title }}",
-    "description" : "{{ if .Description }}{{ .Description | plainify | chomp }}{{ else }}{{if .IsPage}}{{ .Summary | plainify | chomp }}{{ end }}{{ end }}",
-    "articleBody" : "{{ .Content | plainify | htmlUnescape | chomp }}"
+    "description" : {{ $description }},
+    "articleBody" : {{ $article }},
     "author" : "{{ .Site.Params.Author }}",
     "creator" : "{{ .Site.Params.Author }}",
     "copyrightHolder" : "{{ .Site.Params.Author }}",
@@ -14,7 +22,8 @@
     "datePublished": "{{ .Date }}",
     "dateModified" : "{{ .Date }}",
     "url" : "{{ .Permalink }}",
-    "keywords" : [ {{ with .Params.tags }}"{{ delimit . "\", \"" }}{{ end }}" ],
+    "keywords" : [ {{ with .Params.tags }}"{{ delimit . "\", \"" }}"{{ end }} ],
     "wordCount" : "{{ .WordCount }}"
 }
 </script>
+{{- end -}}
