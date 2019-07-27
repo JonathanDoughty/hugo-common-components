@@ -13,7 +13,7 @@
     "@type" : "BlogPosting",
     "name" : "{{ .Title }}",
     "headline" : "{{ .Title }}",
-    "description" : {{ $description }},
+    "description" : {{ if .IsHome }}{{ $.Site.Params.description }}{{else}}{{ $description }}{{ end }},
     "articleBody" : {{ $article }},
     "author" : "{{ .Site.Params.Author }}",
     "creator" : "{{ .Site.Params.Author }}",

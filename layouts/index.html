@@ -9,6 +9,14 @@
   {{ $section := sort .Site.RegularPages ".Date" "desc" }}
   {{/* Check to see if the section is defined for ranging through it */}}
   {{ $section_count := len $section }}
+  {{- $debugHome := false -}}
+  {{- if and (ne (getenv "HUGO_ENV") "production") (eq $debugHome true) -}}
+  <script type="text/javascript">
+  console.log("mainSections: {{ printf "%#v" $mainSections }}")
+  console.log("section: {{ printf "%#v" $section }}")
+  console.log("section_count: {{ printf "%#v" $section_count }}")
+  </script>
+  {{- end -}}
   {{ if ge $section_count 1 }}
     {{/* Derive the section name, assuming the first is the main mainSection */}}
     {{ $section_name := index (.Site.Params.mainSections) 0 }}
