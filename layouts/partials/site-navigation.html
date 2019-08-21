@@ -25,11 +25,12 @@
             {{- $hasIcon := in .Name "icon-" -}}
             {{- $label := replace .Name "icon-" "" -}}
             {{- $label = replace $label  "label-" "" -}}
+            {{- $url := .URL -}}{{/* This use of Menu Entry's .URL I think is correct https://gohugo.io/variables/menus/ */}}
             <li class="list f5 f4-ns fw4 dib pr3">
-            {{- if not $hasIcon -}}
-              <a class="dim no-underline white-90{{ $is_active }}" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }} title="{{ $label }} page">{{ $label }}</a>
+			{{- if not $hasIcon -}}
+              <a class="dim no-underline white-90{{ $is_active }}" href="{{ $url }}" {{ if $active }}aria-current="page"{{ end }} title="{{ $label }} page">{{ $label }}</a>
             {{- else }}
-              <a class="dim no-underline white-90{{ $is_active }}" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }} title="{{ $label }} page">
+              <a class="dim no-underline white-90{{ $is_active }}" href="{{ $url }}" {{ if $active }}aria-current="page"{{ end }} title="{{ $label }} page">
               {{- with .Pre -}}{{ . }}{{- end -}}
               {{- if $includeLabel -}}{{- $label -}}{{- end -}}
               {{- with .Post -}}&nbsp;{{ . }}{{- end -}}
