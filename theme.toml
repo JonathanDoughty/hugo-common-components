@@ -6,7 +6,7 @@ license = "Apache 2.0"
 licenselink = "https://github.com/JonathanDoughty/hugo-common-components/blob/master/LICENSE"
 description = "Partials and Shortcodes shared across several Hugo websites"
 homepage = "https://github.com/JonathanDoughty/hugo-common-components.git"
-tags = [hugo]
+tags = ['hugo', 'common']
 features = []
 min_version = "0.41"
 
