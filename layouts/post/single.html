@@ -4,9 +4,12 @@
   <div class="flex-l mt2 mw9 center">
     <article class="center cf pv3 ph3 ph5-ns mw8">
       <section class="nested-copy-line-height lh-copy sanserif f4 measure-wide nested-links nested-img text-color">
-        {{ .Content }}
-	  </section>
-	  {{ partial "article-date.html" . }}
+      {{ if (or (eq (.Param "show_reading_time") true) (eq .Params.show_reading_time true) ) }}
+      <span class="f6 mv4 dib tracked">{{ .WordCount}} words - {{ .ReadingTime}} minutes to read</span>
+      {{ end }}
+      {{ .Content }}
+     </section>
+    {{ partial "article-date.html" . }}
     </article>
     <div class="ph2 mt2-ns bl-l b--moon-gray">
       {{ partial "related.html" . }}
