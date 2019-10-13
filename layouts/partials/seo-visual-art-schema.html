@@ -30,7 +30,7 @@
     "copyrightYear" : "{{ .Date.Format "2006" }}",
     "dateCreated": "{{ .Date.Format "2006-01" }}",
     "dateModified" : "{{ .Date.Format "2006-01-02" }}",
-    "url" : {{ .Permalink }},
+    "url" : {{ safeURL .Permalink }},
 	"keywords": {{ .Scratch.Get "seo_tags" }},
     {{- with .Params.price -}}{{ if findRE "[0-9]+" . }}
     "offers" : {
@@ -47,7 +47,7 @@
     {{- $sizes := (sort ($.Param "sizes") "value" ) -}}
     {{- $last := index (last 1 $sizes) 0 -}}
 	{{ $img := ($original.Resize (printf "%dx %s" $last $options)) }}
-    "image" : "{{- $img.Permalink -}}"
+    "image" : {{- safeURL $img.Permalink -}}
 }
 </script>
 {{- $debug := false -}}
