@@ -1,4 +1,11 @@
 {{/*  layouts/partials/seo-post-schema.html  */}}
+{{/* https://discourse.gohugo.io/t/escaping-quote-marks-when-using-delimit/18487 */}}
+{{- if isset .Params "tags" }}
+{{- .Scratch.Set "seo_tags" (apply .Params.tags "urlize" "." ) }}
+{{- .Scratch.Add "seo_tags" (apply .Site.Params.seo_tags "urlize" ".") }}
+{{- else }}
+{{- .Scratch.Set "seo_tags" (apply .Site.Params.seo_tags "urlize" ".") }}
+{{- end }}
 {{- if eq .Kind "page" -}}
 {{- $article := .Content | plainify | htmlUnescape | chomp -}}
 {{- $description := "placeholder " -}}
@@ -22,7 +29,7 @@
     "datePublished": "{{ .Date }}",
     "dateModified" : "{{ .Date }}",
     "url" : "{{ .Permalink }}",
-    "keywords" : [ {{ with .Params.tags }}"{{ delimit . "\", \"" }}"{{ end }} ],
+	"keywords": {{ .Scratch.Get "seo_tags" }},
     "wordCount" : "{{ .WordCount }}"
 }
 </script>

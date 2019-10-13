@@ -1,0 +1,69 @@
+{{/*  layouts/partials/seo-visual-art-schema.html  */}}
+{{/* https://discourse.gohugo.io/t/escaping-quote-marks-when-using-delimit/18487 */}}
+{{- if isset .Params "tags" }}
+{{- .Scratch.Set "seo_tags" (apply .Params.tags "urlize" "." ) }}
+{{- .Scratch.Add "seo_tags" (apply .Site.Params.seo_tags "urlize" ".") }}
+{{- else }}
+{{- .Scratch.Set "seo_tags" (apply .Site.Params.seo_tags "urlize" ".") }}
+{{- end }}
+<script type="application/ld+json">
+{
+    "@context" : "http://schema.org",
+    "@type" : "VisualArtwork",
+    "name" : "{{ .Title }}",
+    "headline" : "{{ .Title }}",{{/* Include the whole content but, using funky regex, do case insensitive replacement of redundant appearances of (near) title  */}}
+    "description" : "{{ replaceRE (printf "(?i) %s " .Title ) " " ( htmlUnescape ( delimit .PlainWords " ") | plainify ) }}",
+    "material" : "fabric",
+    "artMedium": "fabric",
+    "artist" : {
+        "@type": "Person",
+        "name": "{{ .Site.Params.Author }}"
+    },
+    "creator" : {
+        "@type": "Person",
+        "name": "{{ .Site.Params.Author }}"
+    },
+    "copyrightHolder" : {
+        "@type": "Person",
+        "name": "{{ .Site.Params.Author }}"
+    },
+    "copyrightYear" : "{{ .Date.Format "2006" }}",
+    "dateCreated": "{{ .Date.Format "2006-01" }}",
+    "dateModified" : "{{ .Date.Format "2006-01-02" }}",
+    "url" : {{ .Permalink }},
+	"keywords": {{ .Scratch.Get "seo_tags" }},
+    {{- with .Params.price -}}{{ if findRE "[0-9]+" . }}
+    "offers" : {
+        "@type" : "Offer",
+        "price" : "{{ . }}",
+        "priceCurrency": "USD"
+    },{{ end }}{{ end }}
+    {{- $image := replaceRE "^https?://[^/]+/(.*).[A-z]+$" "$1" .Params.featured_image -}}
+    {{- $media := (.Site.GetPage "page" "media").Resources -}}
+    {{- $pattern := printf "**%s" $image -}}
+    {{- $matches := $media.Match $pattern -}}
+    {{- $original := index ($media.Match $pattern ) 0 -}}
+    {{- $options := $.Param "options" -}}
+    {{- $sizes := (sort ($.Param "sizes") "value" ) -}}
+    {{- $last := index (last 1 $sizes) 0 -}}
+	{{ $img := ($original.Resize (printf "%dx %s" $last $options)) }}
+    "image" : "{{- $img.Permalink -}}"
+}
+</script>
+{{- $debug := false -}}
+{{- if (or $debug (not $original)) -}}{{/* if image can't be found provide some help */}}
+<table>
+  <thead>
+    <tr><td>Variable</td><td>Value</td></tr>
+  </thead>
+  <tbody>
+    <tr><td>Image</td><td>{{ $image }}</td></tr>
+    <tr><td>Pattern</td><td>{{ $pattern }}</td></tr>
+    <tr><td>Options</td><td>{{ $options }}</td></tr>
+    <tr><td>Matches</td><td>{{ $matches }}</td></tr>
+    <tr><td>Image Path</td><td>{{ (or $original.RelPermalink "Not Found") }}</td></tr>
+    <tr><td>Last Size</td><td>{{$last}}</td></tr>
+    <tr><td>Resized</td><td>{{$img.RelPermalink}}</td></tr>
+  </tbody>
+</table>
+{{- end -}}
