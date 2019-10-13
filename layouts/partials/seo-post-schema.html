@@ -10,9 +10,9 @@
 {{- $article := .Content | plainify | htmlUnescape | chomp -}}
 {{- $description := "placeholder " -}}
 {{- if .Description -}}
-{{-    $description = .Description | plainify | chomp -}}
+{{-    $description = .Description | plainify | htmlUnescape | chomp -}}
 {{- else -}}
-{{-    $description = .Summary | plainify | chomp -}}
+{{-    $description = .Summary | plainify | htmlUnescape | chomp -}}
 {{- end -}}
 <script type="application/ld+json">
 {
@@ -28,7 +28,7 @@
     "copyrightYear" : "{{ .Date.Format "2006" }}",
     "datePublished": "{{ .Date }}",
     "dateModified" : "{{ .Date }}",
-    "url" : "{{ .Permalink }}",
+    "url" : {{ .Permalink }},
 	"keywords": {{ .Scratch.Get "seo_tags" }},
     "wordCount" : "{{ .WordCount }}"
 }
