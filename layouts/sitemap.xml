@@ -4,7 +4,7 @@
   {{ range .Data.Pages }}
   <url>
     <loc>{{- .Permalink -}}</loc>
-    <lastmod>{{- with .File.Path -}}
+    <lastmod>{{- with .File }}{{ .Path }} -}}
     {{- $stat := os.Stat . -}}
     {{- $stat.ModTime.Format "2006-01-02T15:04:05-07:00" -}}
     {{- end -}}</lastmod>
