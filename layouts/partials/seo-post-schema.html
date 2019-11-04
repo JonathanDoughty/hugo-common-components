@@ -1,11 +1,18 @@
 {{/*  layouts/partials/seo-post-schema.html  */}}
+{{/* https://discourse.gohugo.io/t/escaping-quote-marks-when-using-delimit/18487 */}}
+{{- if isset .Params "tags" }}
+{{- .Scratch.Set "seo_tags" (apply .Params.tags "urlize" "." ) }}
+{{- .Scratch.Add "seo_tags" (apply .Site.Params.seo_tags "urlize" ".") }}
+{{- else }}
+{{- .Scratch.Set "seo_tags" (apply .Site.Params.seo_tags "urlize" ".") }}
+{{- end }}
 {{- if eq .Kind "page" -}}
 {{- $article := .Content | plainify | htmlUnescape | chomp -}}
 {{- $description := "placeholder " -}}
 {{- if .Description -}}
-{{-    $description = .Description | plainify | chomp -}}
+{{-    $description = .Description | plainify | htmlUnescape | chomp -}}
 {{- else -}}
-{{-    $description = .Summary | plainify | chomp -}}
+{{-    $description = .Summary | plainify | htmlUnescape | chomp -}}
 {{- end -}}
 <script type="application/ld+json">
 {
@@ -21,8 +28,8 @@
     "copyrightYear" : "{{ .Date.Format "2006" }}",
     "datePublished": "{{ .Date }}",
     "dateModified" : "{{ .Date }}",
-    "url" : "{{ .Permalink }}",
-    "keywords" : [ {{ with .Params.tags }}"{{ delimit . "\", \"" }}"{{ end }} ],
+    "url" : {{ .Permalink }},
+	"keywords": {{ .Scratch.Get "seo_tags" }},
     "wordCount" : "{{ .WordCount }}"
 }
 </script>
