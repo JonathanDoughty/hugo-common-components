@@ -1,0 +1,43 @@
+{{/* layouts/partials/recent-summary.html */}}
+{{/* Define sections to pull recent posts from, defaulting to posts. */}}
+{{ $mainSections :=  .Site.Params.mainSections | default (slice "post")  }}
+{{/* $pages := where .Site.RegularPages "Section" "in" $mainSections */}}
+{{ $pages := sort .Site.RegularPages ".Date" "desc" }}
+{{ $pages_count := len $pages }}
+{{- $debugHome := false -}}
+{{- if and (ne (getenv "HUGO_ENV") "production") (eq $debugHome true) -}}
+<script type="text/javascript">
+console.log("mainSections: {{ printf "%#v" $mainSections }}")
+console.log("pages: {{ printf "%#v" $pages }}")
+console.log("pages_count: {{ printf "%#v" $pages_count }}")
+</script>
+{{- end -}}
+{{ if ge $pages_count 1 }}
+  {{/* Derive the section name, assuming the first is the main mainSection */}}
+  {{ $section_name := index (.Site.Params.mainSections) 0 }}
+  <div class="pa3 pa4-ns w-100 w-70-ns center">
+	{{/* Use $section_name to get the section title. Use "with" to only show it if it exists */}}
+	 {{ with .Site.GetPage "section" $section_name }}
+		<h1 class="flex-none">
+		  Recent {{ pluralize $section_name | humanize }}
+		</h1>
+	  {{ end }}
+	{{ $n_posts := $.Param "recent_posts_number" | default 3 }}
+	<section class="w-100 mw8">
+	  {{/* Range through the first n recent items not in draft of the section */}}
+	  {{ range (first $n_posts ( where $pages ".Draft" false ) ) }}
+		<div class="relative w-100 mb4">
+		  {{ partial "summary-with-image.html" . }}
+		</div>
+	  {{ end }}
+	</section>
+	{{ if ge $pages_count (add $n_posts 1) }}
+	<section class="w-100">
+	  {{/* As above, use $section_name to get the section title, and URL. Use "with" to only show it if it exists */}}
+	  {{ with .Site.GetPage "section" $section_name }}
+		<a href="{{ .Permalink }}" class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">More {{ pluralize $section_name | humanize }} &raquo;</a>
+	  {{ end }}
+	</section>
+	{{ end }}
+	</div>
+{{ end }}
