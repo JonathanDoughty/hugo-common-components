@@ -16,6 +16,8 @@
             {{- $active = or $active (and (eq .Name "Blog") (eq $current.Section "post")) -}}
             {{- $active = or $active (and (eq .Name "News") (eq $current.Section "post")) -}}
             {{- $active = or $active (and (eq .Name "Tags") (eq $current.Section "tags")) -}}
+            {{- $active = or $active (and (eq .Name "Contact") (eq $current.Section "about")) -}}
+            {{- $active = or $active (and (eq .Name "Galleries") (eq $current.Section "galleries")) -}}
             {{- else -}}
             {{- $active = false -}}
             {{- end -}}
@@ -25,7 +27,7 @@
             {{- $hasIcon := in .Name "icon-" -}}
             {{- $label := replace .Name "icon-" "" -}}
             {{- $label = replace $label  "label-" "" -}}
-            {{- $url := .URL -}}{{/* This use of Menu Entry's .URL I think is correct https://gohugo.io/variables/menus/ */}}
+            {{- $url := .URL -}}
             <li class="list f5 f4-ns fw4 dib pr3">
 			{{- if not $hasIcon -}}
               <a class="dim no-underline white-90{{ $is_active }}" href="{{ $url }}" {{ if $active }}aria-current="page"{{ end }} title="{{ $label }} page">{{ $label }}</a>
