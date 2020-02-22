@@ -2,7 +2,6 @@
 <html lang="{{ $.Site.LanguageCode | default "en" }}">
   <head>
     <meta charset="utf-8">
-    {{/* NOTE: the Site's title, and if there is a page title, that is set too */}}
     <title>{{ block "title" . }}{{ .Site.Title }}{{ with .Params.Title }} | {{ . }}{{ end }}{{ end }}</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -16,22 +15,23 @@
       <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
     {{- else -}}
       <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
-    {{- end -}}
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    {{ end -}}
+    <script src="https://kit.fontawesome.com/1e35083f4a.js" crossorigin="anonymous"></script>
     {{- $stylesheet := .Site.Data.webpack_assets.app -}}
     {{ with $stylesheet.css }}
-      <link href="{{ absURL (printf "%s%s" "/dist/" .) }}" rel="stylesheet">
+    <link href="{{ absURL (printf "%s%s" "/dist/" .) }}" rel="stylesheet">
     {{- end -}}
     {{ range .Site.Params.custom_css }}
-      <link href="{{ $.Site.BaseURL }}/{{ . }}" rel="stylesheet">
+    <link href="{{ $.Site.BaseURL }}/{{ . }}" rel="stylesheet">
     {{- end -}}
     {{- block "favicon" . -}}
-      {{ partial "site-favicon.html" . }}
-	{{- end -}}
-	{{ with .OutputFormats.Get "rss" -}}
+    {{ partial "site-favicon.html" . }}
+    {{- end -}}
+    {{/* RSS and others alternatives */}}
+    {{ range .AlternativeOutputFormats -}}
     {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
-	{{ end -}}
-    {{/* NOTE: These Hugo Internal Templates can be found starting at https://github.com/spf13/hugo/blob/master/tpl/tplimpl/template_embedded.go#L158 */}}
+    {{ end -}}
+    {{/* NOTE: Hugo Internal Templates can be found starting at https://github.com/spf13/hugo/blob/master/tpl/tplimpl/template_embedded.go#L158 */}}
     {{- template "_internal/opengraph.html" . -}}
     {{- template "_internal/google_news.html" . -}}
     {{- template "_internal/schema.html" . -}}
